@@ -1,0 +1,61 @@
+
+name: AKS Terraform Deployment
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths:
+      - "AKS-Terraform/**"
+      - ".github/workflows/infra.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform Init, Plan and Apply
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: AKS-Terraform
+
+    steps:
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Login to Azure
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Install Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.12.2"
+
+      # Terraform formatting
+      - name: Terraform Format
+        run: terraform fmt -check -recursive
+
+      # Initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # Validate Terraform configuration
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Generate Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      # Apply Terraform configuration
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
