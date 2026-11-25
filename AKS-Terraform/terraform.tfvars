@@ -1,6 +1,6 @@
 
-subscription_id = "80ea84e8-afce-4851-928a-9e2219724c69"
+subscription_id = "0cfe2870-d256-4119-b0a3-16293ac11bdc"
 
 resource_provider_registrations = "none"
 
-resource_group_name = "1-cd308ca6-playground-sandbox"
+resource_group_name = "1-5a02b779-playground-sandbox"
