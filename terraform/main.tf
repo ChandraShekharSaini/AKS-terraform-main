@@ -1,24 +1,4 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "5.15.0"
-    }
-  }
-}
 
-
-provider "azurerm" {
-  features {}
-
-  subscription_id                 = "80ea84e8-afce-4851-928a-9e2219724c69"
-  resource_provider_registrations = "none"
-}
-
-# Existing Resource Group
-data "azurerm_resource_group" "aks_rg" {
-  name = "1-cd308ca6-playground-sandbox"
-}
 
 # Virtual Network
 resource "azurerm_virtual_network" "vnet" {
