@@ -18,14 +18,14 @@ resource "azurerm_subnet" "aks_subnet" {
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "demo-aks"
   location            = data.azurerm_resource_group.aks_rg.location
-  resource_group_name  = data.azurerm_resource_group.aks_rg.name
+  resource_group_name = data.azurerm_resource_group.aks_rg.name
   dns_prefix          = "demoaks"
 
   default_node_pool {
-    name            = "default"
-    node_count      = 1
-    vm_size         = "Standard_D2s_v3"
-    vnet_subnet_id  = azurerm_subnet.aks_subnet.id
+    name           = "default"
+    node_count     = 1
+    vm_size        = "Standard_D2s_v3"
+    vnet_subnet_id = azurerm_subnet.aks_subnet.id
   }
 
   identity {
