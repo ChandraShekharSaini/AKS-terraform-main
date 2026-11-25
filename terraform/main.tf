@@ -1,5 +1,3 @@
-
-
 # Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = "aks-vnet"
