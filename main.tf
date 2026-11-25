@@ -1,24 +1,23 @@
 terraform {
-  required_version = ">= 1.5.0"
-
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.0"
+      version = "5.15.0"
     }
   }
 }
 
+
 provider "azurerm" {
   features {}
 
-  subscription_id = "9734ed68-621d-47ed-babd-269110dbacb1"
+  subscription_id                 = "80ea84e8-afce-4851-928a-9e2219724c69"
   resource_provider_registrations = "none"
 }
 
 # Existing Resource Group
 data "azurerm_resource_group" "aks_rg" {
-  name = "1-5e85855c-playground-sandbox"
+  name = "1-cd308ca6-playground-sandbox"
 }
 
 # Virtual Network
@@ -41,18 +40,22 @@ resource "azurerm_subnet" "aks_subnet" {
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "demo-aks"
   location            = data.azurerm_resource_group.aks_rg.location
-  resource_group_name = data.azurerm_resource_group.aks_rg.name
+  resource_group_name  = data.azurerm_resource_group.aks_rg.name
   dns_prefix          = "demoaks"
 
   default_node_pool {
-    name           = "default"
-    node_count     = 1
-    vm_size        = "Standard_D2s_v3"
-    vnet_subnet_id = azurerm_subnet.aks_subnet.id
+    name            = "default"
+    node_count      = 1
+    vm_size         = "Standard_D2s_v3"
+    vnet_subnet_id  = azurerm_subnet.aks_subnet.id
   }
 
   identity {
     type = "SystemAssigned"
+  }
+
+  node_provisioning_profile {
+    mode = "Manual"
   }
 
   network_profile {
@@ -67,4 +70,3 @@ resource "azurerm_kubernetes_cluster" "aks" {
     Environment = "Dev"
   }
 }
-
